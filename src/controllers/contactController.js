@@ -2,10 +2,14 @@ import {
   createContactService,
   getAllContactsService,
   getContactByIdService,
+  updateContactStatusService,
   deleteContactService,
 } from "../services/contactService.js";
 
-export const createContactController = async (req, res) => {
+export const createContactController = async (
+  req,
+  res
+) => {
   try {
     const {
       name,
@@ -16,7 +20,12 @@ export const createContactController = async (req, res) => {
       message,
     } = req.body;
 
-    if (!name || !email || !interest || !message) {
+    if (
+      !name ||
+      !email ||
+      !interest ||
+      !message
+    ) {
       return res.status(400).json({
         success: false,
         message:
@@ -24,18 +33,20 @@ export const createContactController = async (req, res) => {
       });
     }
 
-    const contact = await createContactService({
-      name,
-      company,
-      email,
-      phone,
-      interest,
-      message,
-    });
+    const contact =
+      await createContactService({
+        name,
+        company,
+        email,
+        phone,
+        interest,
+        message,
+      });
 
     return res.status(201).json({
       success: true,
-      message: "Contact form submitted successfully",
+      message:
+        "Contact form submitted successfully",
       data: contact,
     });
   } catch (error) {
@@ -51,7 +62,8 @@ export const getAllContactsController = async (
   res
 ) => {
   try {
-    const contacts = await getAllContactsService();
+    const contacts =
+      await getAllContactsService();
 
     return res.status(200).json({
       success: true,
@@ -71,9 +83,10 @@ export const getContactByIdController = async (
   res
 ) => {
   try {
-    const contact = await getContactByIdService(
-      req.params.id
-    );
+    const contact =
+      await getContactByIdService(
+        req.params.id
+      );
 
     if (!contact) {
       return res.status(404).json({
@@ -94,13 +107,45 @@ export const getContactByIdController = async (
   }
 };
 
+export const updateContactStatusController =
+  async (req, res) => {
+    try {
+      const contact =
+        await updateContactStatusService(
+          req.params.id,
+          req.body.status
+        );
+
+      if (!contact) {
+        return res.status(404).json({
+          success: false,
+          message: "Contact not found",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message:
+          "Status updated successfully",
+        data: contact,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
 export const deleteContactController = async (
   req,
   res
 ) => {
   try {
     const deletedContact =
-      await deleteContactService(req.params.id);
+      await deleteContactService(
+        req.params.id
+      );
 
     if (!deletedContact) {
       return res.status(404).json({
@@ -111,7 +156,8 @@ export const deleteContactController = async (
 
     return res.status(200).json({
       success: true,
-      message: "Contact deleted successfully",
+      message:
+        "Contact deleted successfully",
     });
   } catch (error) {
     return res.status(500).json({

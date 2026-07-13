@@ -45,6 +45,13 @@ const contactSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
+    // NEW FIELD
+    status: {
+      type: String,
+      enum: ["new", "read", "replied"],
+      default: "new",
+    },
   },
   {
     timestamps: true,
