@@ -123,6 +123,21 @@ app.use(
 settingsRoutes
 );
 
+
+
+// Public Success Content (Student)
+app.use(
+"/api/success-content",
+successContentRoutes
+);
+
+// Admin Success Content
+app.use(
+"/api/admin/success-content",
+successContentRoutes
+);
+
+
 //admin success content 
 app.use(
 "/api/admin/success-content",

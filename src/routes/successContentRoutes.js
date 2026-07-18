@@ -1,40 +1,27 @@
 import express from "express";
 
 import {
-getSuccessContent,
-updateSuccessContent
-}
-from "../controllers/successContentController.js";
-
+  getSuccessContent,
+  updateSuccessContent,
+} from "../controllers/successContentController.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
 import adminMiddleware from "../middleware/adminMiddleware.js";
 
-
 const router = express.Router();
 
-
-
-// Get Content
-
+// Public GET (Student + Admin)
 router.get(
-"/",
-authMiddleware,
-adminMiddleware,
-getSuccessContent
+  "/",
+  getSuccessContent
 );
 
-
-
-// Update Content
-
+// Admin Update Only
 router.put(
-"/",
-authMiddleware,
-adminMiddleware,
-updateSuccessContent
+  "/",
+  authMiddleware,
+  adminMiddleware,
+  updateSuccessContent
 );
-
-
 
 export default router;
